@@ -1,0 +1,9 @@
+[submodule "ES4/Lesson_4a"]
+	path = ES4/Lesson_4a
+	url = git@github.com:P1R/Lesson_4a.git
+[submodule "ES4/Optimising-Storage"]
+	path = ES4/Optimising-Storage
+	url = git@github.com:P1R/Optimising-Storage.git
+[submodule "ES4/MainNetFork"]
+	path = ES4/MainNetFork
+	url = git@github.com:P1R/MainNetFork.git
