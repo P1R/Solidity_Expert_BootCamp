@@ -2,9 +2,9 @@
 
 ## Assembly 1
 
-### 1. Look at the example of init code in today's notes, When we do the CODECOPY operation, what are we overwriting ?
+### 1. Look at the example of init code in today's notes[1], When we do the CODECOPY operation, what are we overwriting ?
 
-Gist Code:
+Gist Code[2]:
 
 ```Solidity
 // SPDX-License-Identifier: MIT
@@ -53,16 +53,33 @@ KECCAK256 DUP8 0x2B 0x5D 0x4B SWAP16 KECCAK256 EXP REVERT 0xDD 0x5E
 ```
 
 #### Answer
+To understand firs we look at the debugger in remix before performing the operation CODECOPY:
 
+![image](https://user-images.githubusercontent.com/706259/235603043-0532b13e-a59a-4326-b786-737f0934f276.png)
+Img1. Shows the Memory before executing the OPCODE CODECOPY
 
+![image](https://user-images.githubusercontent.com/706259/235603245-8b11092b-913d-4196-8b79-e9fd7af79efb.png)
+Img2. Shows the Memory after executing the OPCODE CODECOPY
 
+**A:** We are overwriting the memory, specifically offset 0x40 which has stored value 0x80 as shown in the Img1.
+
+As explained in the Lesson5 example by setting 0x80 into the offset 0x40: "This is in fact setting up the free memory pointer, it means that memory after address 0x80
+is free"
 
 ### 2. Could the answer to Q1 allow an optimisation ?
 
+Well, maybe by avoid the need to do that previos Operation (setting 0x80 into the offset 0x40)
 
 ### 3. Can you trigger a revert in the init code in Remix ?
 
 Yes. By sending gwei into the contract creation.
+
+here is an example at Img3:
+
+![image](https://user-images.githubusercontent.com/706259/235604643-68c0ab20-e35c-48ac-b6ed-17ddcd85dab8.png)
+Img3. Shows how to trigger a revert
+
+This is because contracts constructor is not payable and the JMPI DOES NOT Jump when we have a wei value in the CALLVALUE Operation.
 
 ### 4. Write some Yul to
 
@@ -70,11 +87,31 @@ Yes. By sending gwei into the contract creation.
 2. store the result at the next free memory location.
 3. (optional) write this again in opcodes
 
+```JUL
+Assembly{
+  // setting up the free memory pointer.
+  let suma := mload(0x40)
+  // Store the result at the next free memory location.
+  mstore(suma, add(0x07, 0x08))
+}
+```
+
+```Assembly 
+PUSH1 0x07
+PUSH1 0x08
+ADD
+PUSH1 0x00
+MSTORE
+```
+
 ### 5. Can you think of a situation where the opcode EXTCODECOPY is used ?
+
+Maybe in a inherance contracts constructor Data, or in Upgradeability Model to get a previous/depercated version contract code sections.
 
 ### 6. Complete the assembly exercises in this [repo](https://github.com/ExtropyIO/ExpertSolidityBootcamp)
 
 
 ## References
 
-1. Lesson 5, Expert Solidity Bootcamp, 2023-05-01
+1. Encode Club, Lesson 5, Expert Solidity Bootcamp, 2023-05-01
+2. extropyCoder, Deploy1.sol, https://gist.github.com/extropyCoder/4243c0f90e6a6e97006a31f5b9265b94, 2023-05-01
