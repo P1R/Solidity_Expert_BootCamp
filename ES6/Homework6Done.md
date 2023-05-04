@@ -56,6 +56,8 @@ create                      # addr2
 selfdestruct
 ```
 
+The code creates a contract  and transfers the remaining ether of a selfdestruct contract to the new one.
+
 The runtime bytecode for this contract is `0x68601e8060093d393df35952383d59396009380160173d828234f050f0ff`
 
 
@@ -69,6 +71,10 @@ function allowanceStorageOffset(account, spender) -> offset {
     offset := keccak256(0, 0x40)
 }
 ```
+
+This function calculates the storage location for an Allowance value in an ERC20 contract's storage 
+(for allowance and approve operations) the keccak256 hash function is used to derivate a unique storage
+slot for the allowance value based on the `acount` and `spender` parameters.
 
 ## References
 
