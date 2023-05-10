@@ -7,3 +7,9 @@
 [submodule "ES4/MainNetFork"]
 	path = ES4/MainNetFork
 	url = git@github.com:P1R/MainNetFork.git
+[submodule "ES8/gas-optimization-foundry"]
+	path = ES8/gas-optimization-foundry
+	url = https://github.com/jasonjgarcia24/gas-optimization-foundry.git
+[submodule "ES8/GasOptimization"]
+	path = ES8/GasOptimization
+	url = git@github.com:P1R/GasOptimization.git
