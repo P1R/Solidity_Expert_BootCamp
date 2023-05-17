@@ -1,0 +1,33 @@
+# Homework 13
+
+## Solidity / Yul bitwise
+
+### 1. What are the potential dangers when performing the following bitwise operations
+
+1. Left shift
+2. Right shift
+
+#### Answer
+
+```Solidity
+
+```
+
+
+### 2. Bit Operations
+Imagine you have a uint256 variable in storage named x
+check if x starts with de or be
+if x starts with 0xde multiply x by 4
+if x starts with 0xbe divide x by 4
+Write the code in
+
+a. Solidity
+b. Yul
+
+Which one is most gas efficient ?
+To help you test your solution, here are some decimal values you can use
+https://gist.github.com/extropyCoder/e991809dbb4194dc5af00d6422083f99
+
+## References
+
+1. Lesson 13, Expert Solidity Bootcamp, 2023-05-15
