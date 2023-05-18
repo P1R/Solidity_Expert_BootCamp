@@ -50,14 +50,64 @@ To avoid these potential dangers, make sure to use appropriate data types and be
 ### 2. Bit Operations
 Imagine you have a uint256 variable in storage named x
 check if x starts with de or be
+
 if x starts with 0xde multiply x by 4
+
 if x starts with 0xbe divide x by 4
 Write the code in
 
 a. Solidity
+```Solidity
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.19;
+
+contract Bitwise {
+    uint256 public x;
+    uint256 internal constant de = 0xde00000000000000000000000000000000000000000000000000000000000000;
+    uint256 internal constant be = 0xbe00000000000000000000000000000000000000000000000000000000000000;
+
+    function processX(uint256 _x) external {
+        if (de == (_x & de))
+            x = _x * 4;
+        if (be == (_x & be))
+            x = _x / 4;
+    }
+}
+```
+Code1. referenced from the [project bitwise](https://github.com/P1R/bitwise)
+
 b. Yul
 
+```Solidity
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.19;
+
+contract Bitwise {
+    uint256 public x;
+    
+    function processX(uint256 _x) external {
+        assembly {
+            let mask_de := 0xde00000000000000000000000000000000000000000000000000000000000000
+            let mask_be := 0xbe00000000000000000000000000000000000000000000000000000000000000
+            let result := and(_x, mask_de)
+            if eq(result, mask_de) {
+                result := shl(2, _x)
+            }
+            result := and(_x, mask_be)
+            if eq(result, mask_be) {
+                result := shr(2, _x)
+            }
+            sstore(0, result)
+        }
+    }
+}
+```
+Code2. referenced from the [project bitwise](https://github.com/P1R/bitwise)
+
 Which one is most gas efficient ?
+
+Answer: The Yul version is more eficient since it uses way less OPCodes
+
 To help you test your solution, here are some decimal values you can use
 https://gist.github.com/extropyCoder/e991809dbb4194dc5af00d6422083f99
 
@@ -65,3 +115,4 @@ https://gist.github.com/extropyCoder/e991809dbb4194dc5af00d6422083f99
 
 1. Lesson 13, Expert Solidity Bootcamp, 2023-05-15
 2. Shifs, docs solidity, https://docs.soliditylang.org/en/v0.8.12/types.html#shifts , 2023-05-17
+3. bitwise, David E. Perez Negron R. https://github.com/P1R/bitwise , 2023-05-17
