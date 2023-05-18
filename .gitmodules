@@ -13,3 +13,6 @@
 [submodule "ES8/GasOptimization"]
 	path = ES8/GasOptimization
 	url = git@github.com:P1R/GasOptimization.git
+[submodule "ES13/bitwise"]
+	path = ES13/bitwise
+	url = https://github.com/P1R/bitwise
